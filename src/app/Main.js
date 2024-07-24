@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { listaDeCartas } from "./api/route";
 import Updating from "./Updating";
 import ErrorFetch from "./ErrorFetch";
