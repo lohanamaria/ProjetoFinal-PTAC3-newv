@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { listaDeCartas } from "./api/route";
 import Updating from "./Updating";
+import ErrorFetch from "./ErrorFetch";
 import styles from "./main.module.css";
+
 
 export async function GET(req) {
   const id = parseInt(req.url.split('/api/')[1]);
@@ -19,6 +21,8 @@ export async function GET(req) {
 export default function Main() {
   const [listCartas, setListCartas] = useState([]);
   const [listComplete, setListComplete] = useState([]);
+  const [textSearch, setTextSearch] = useState([]);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const fetchCards = async () => {
@@ -26,13 +30,29 @@ export default function Main() {
         const response = await fetch("/api");
         const data = await response.json();
         setListCartas(data);
+        setListComplete(data);
       } catch (error) {
-        console.error("Erro ao buscar cartas:", error);
+        setIsError(true);
       }
     };
     fetchCards();
   }, []);
 
+  const search = (text) => {
+    setTextSearch(text);
+      if (text.trim() == ""){
+       setListCartas(listComplete);
+        return
+      }
+      const newList = listProduct.filter((produto) =>
+        produto.title.toUpperCase().trim().includes(textSearch.toUpperCase().trim())
+        );
+        setListCartas(newList);
+    }
+      if(isError == true){
+        return <ErrorFetch/>
+      
+      }
 
   if (listComplete.length === 0) {
     return <Updating />; 
