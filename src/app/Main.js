@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { NextResponse } from "next/server";
 import Image from "next/image";
 import Link from "next/link";
 import { listaDeCartas } from "./api/route";
@@ -20,7 +21,7 @@ export async function GET(req) {
 }
 
 export default function Main() {
-  const [listCartas, setListCartas] = useState([]);
+  const [listaDeCartas, setListCartas] = useState([]);
   const [listComplete, setListComplete] = useState([]);
   const [textSearch, setTextSearch] = useState([]);
   const [isError, setIsError] = useState(false);
@@ -45,8 +46,8 @@ export default function Main() {
        setListCartas(listComplete);
         return
       }
-      const newList = listProduct.filter((produto) =>
-        produto.title.toUpperCase().trim().includes(textSearch.toUpperCase().trim())
+      const newList = listaDeCartas.filter((card) =>
+        objeto.title.toUpperCase().trim().includes(textSearch.toUpperCase().trim())
         );
         setListCartas(newList);
     }
@@ -61,7 +62,7 @@ export default function Main() {
 
   return (
     <main className={styles.main}>
-      {listProduct.map((card) => (
+      {listaDeCartas.map((card) => (
         <div className={styles.card} key={card.id}>
           <Image
             src={card.imagem || "/default-image.png"}
