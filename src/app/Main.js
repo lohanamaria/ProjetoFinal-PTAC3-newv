@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { listaDeCartas } from "./api/route";
+import Updating from "./Updating";
 import styles from "./main.module.css";
 
 export async function GET(req) {
@@ -16,14 +17,15 @@ export async function GET(req) {
 }
 
 export default function Main() {
-  const [listProduct, setListProduct] = useState([]);
+  const [listCartas, setListCartas] = useState([]);
+  const [listComplete, setListComplete] = useState([]);
 
   useEffect(() => {
     const fetchCards = async () => {
       try {
         const response = await fetch("/api");
         const data = await response.json();
-        setListProduct(data);
+        setListCartas(data);
       } catch (error) {
         console.error("Erro ao buscar cartas:", error);
       }
@@ -31,6 +33,10 @@ export default function Main() {
     fetchCards();
   }, []);
 
+
+  if (listComplete.length === 0) {
+    return <Updating />; 
+  }
 
   return (
     <main className={styles.main}>
